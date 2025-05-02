@@ -7,9 +7,8 @@ import time
 
 # Lista de IPs das impressoras
 ips = [
-    "172.16.18.2", #funcionando recepca-pso
-    "172.16.24.15", # desligada do psi
-    "172.16.17.5", # erro de segurança da pagina | recepcao psa
+    #"172.16.18.7",
+    "172.16.18.100"
     
 ]
 
@@ -31,7 +30,7 @@ for ip in ips:
         print(f"\nAcessando impressora no IP: {ip}")
     
         # -------- 1. Obtendo o CONTADOR --------
-        navegador.get(f"https://{ip}/web/guest/en/websys/status/getUnificationCounter.cgi")
+        navegador.get(f"http://{ip}/web/guest/en/websys/status/getUnificationCounter.cgi")
         navegador.implicitly_wait(5)
 
         elemento_cont = navegador.find_elements(By.CLASS_NAME, "staticProp")
@@ -43,11 +42,9 @@ for ip in ips:
         else:
             contador = "Elemento staticProp insuficiente"
 
-        print(f"Contador: {contador}")
-
         # -------- 2. Obtendo o ID da Impressora 
 
-        navegador.get(f"https://{ip}/web/guest/en/websys/status/configuration.cgi")
+        navegador.get(f"http://{ip}/web/guest/en/websys/status/configuration.cgi")
 
         navegador.implicitly_wait(3)
 
