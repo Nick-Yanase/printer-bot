@@ -8,8 +8,8 @@ import time
 # Lista de IPs das impressoras
 ips = [
     #"172.16.18.7",
-    "172.16.18.100"
-    
+    "172.16.18.100",
+    "172.16.18.21",
 ]
 
 chrome_options = Options()
@@ -55,7 +55,6 @@ for ip in ips:
         num_serie = menu_id.find_element(By.XPATH, "./td[4]").text
       
           # -------- Resultado final --------
-        print(f"IP: {ip}")
         print(f"Contador: {contador}")
         print(f"ID Impressora: {num_serie}")
 
