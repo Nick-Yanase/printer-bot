@@ -3,7 +3,7 @@ import { PythonShell } from "python-shell";
 
 export async function GET() {
   return new Promise((resolve) => {
-    let pyshell = new PythonShell("src/scripts/RICOH-3700.py");
+    let pyshell = new PythonShell("src/scripts/KYOCERA-Printer.py");
 
     let data = "";
 

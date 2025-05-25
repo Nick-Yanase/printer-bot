@@ -6,15 +6,13 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
 import json
+import sys
 
+sys.stdout.reconfigure(encoding='utf-8')
 
-# Lista de IPs
 ips = [
-    "172.16.18.100",
-    "172.16.12.188",
+    "172.16.17.101",
 ]
-
-# Configurações do navegador
 chrome_options = Options()
 chrome_options.add_argument("--headless=new")
 chrome_options.add_argument('--disable-gpu')
@@ -33,41 +31,37 @@ navegador = webdriver.Chrome(
 resultados = []
 
 for ip in ips:
-    try:
-        wait = WebDriverWait(navegador, 5)
-        # -------- Obtendo o CONTADOR --------
-        navegador.get(f"http://{ip}/web/guest/en/websys/status/getUnificationCounter.cgi")
+  try:
 
-        elementos = wait.until(EC.presence_of_all_elements_located((By.CLASS_NAME, "staticProp")))
+    wait = WebDriverWait(navegador, 5)
+    # ------- obtendo ID ----------
+    navegador.get(f"http://{ip}/web/guest/br/websys/status/configuration.cgi")
 
-        if len(elementos) >= 2:
-            segundo = elementos[1]
-            tds = segundo.find_elements(By.TAG_NAME, "td")
-            contador = tds[3].text if len(tds) > 3 else "❌ Contador não encontrado"
-        else:
-            contador = "❌ Dados insuficientes para contador"
-
-        # -------- Obtendo o ID da Impressora --------
-        navegador.get(f"http://{ip}/web/guest/en/websys/status/configuration.cgi")
-
-        menu_id = wait.until(EC.presence_of_element_located((
-            By.XPATH, "//tr[contains(@class, 'staticProp')][td[contains(text(), 'Machine ID')]]"
+    menu_serie = wait.until(EC.presence_of_element_located((
+            By.XPATH, "//tr[contains(@class, 'staticProp')][td[contains(text(), 'ID da máquina')]]"
         )))
+    num_serie = menu_serie.find_element(By.XPATH, "./td[4]").text
 
-        num_serie = menu_id.find_element(By.XPATH, "./td[4]").text
+    # ------- obtendo CONTADOR ---------
+    navegador.get(f"http://{ip}/web/guest/br/websys/status/getUnificationCounter.cgi")
 
-        resultados.append({
+    menu_contador = wait.until(EC.presence_of_element_located((
+            By.XPATH, "//tr[contains(@class, 'staticProp')][td[contains(text(), 'Total')]]"
+        )))
+    contador = menu_contador.find_element(By.XPATH, "./td[4]").text
+    # ------ resultados armazenados ------
+    resultados.append({
             "ip": ip,
-            "modelo": "RICOH 4500",  # ou o modelo que você quiser descrever
+            "modelo": "RICOH 4055",
             "contador": contador,
             "numero_serie": num_serie,
             "obs": "✅"
         })
-
-    except Exception as e:
-        resultados.append({
+    
+  except Exception as e:
+    resultados.append({
             "ip": ip,
-            "modelo": "RICOH 4500",
+            "modelo": "RICOH 4055",
             "contador": "❌",
             "numero_serie": "❌",
             "obs": str(e)
@@ -77,4 +71,4 @@ for ip in ips:
 navegador.quit()
 
 # Exibe os resultados
-print(json.dumps(resultados, indent=4))
+print(json.dumps(resultados, indent=4, ensure_ascii=False))
