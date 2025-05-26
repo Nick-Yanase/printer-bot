@@ -42,7 +42,9 @@ export default function Home() {
       '/api/RICOH-4055',
       '/api/RICOH-MP501',
       '/api/KYOCERA-PRINTER',
-      '/api/KYOCERA-M3550'
+      '/api/KYOCERA-M3550',
+      '/api/KYOCERA-FS2100',
+      '/api/KYOCERA-M3145',
     ];
   
     const dadosFinais: Impressora[] = [];
@@ -68,44 +70,10 @@ export default function Home() {
     }
   }
   
-
-  async function getCounter(){
-    setCarregando(true);
-    setProgresso(0);
-    
-      const intervalo = setInterval(() => {
-        setProgresso((old) => {
-          if (old < 80) {
-            return old + 1; // Velocidade da barra até 80%
-          }
-          return old;
-        });
-      }, 50); // A cada 50ms aumenta 1%
-    
-      try {
-        const res = await fetch('/api/KYOCERA-M3550');
-        const dados = await res.json();
-    
-        setDados(dados);
-        setProgresso(100);
-      } catch (e) {
-        console.error('Erro ao buscar dados das impressoras:', e);
-        setProgresso(100);
-      } finally {
-        clearInterval(intervalo);
-        setTimeout(() => {
-          setCarregando(false);
-          setProgresso(0);
-        }, 500);
-      }
-  }
-
-
   const voltar = () => {
     setDados([])
   }
   return (
-    
       <main className="h-fit w-full flex flex-col items-center justify-center gap-5 bg-zinc-950 overflow-hidden relative z-10">
         <BlurPink className='absolute -top-[0px] -left-[0px] z-10 pointer-events-none select-none' width={400} height={400}/>
         <AnimatePresence mode="wait">

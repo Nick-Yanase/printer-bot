@@ -83,7 +83,7 @@ for ip in ips:
         # ---------- RESULTADO ----------
         resultados.append({
             "ip": ip,
-            "modelo": "Kyocera",
+            "modelo": "KYOCERA PRINTER",
             "contador": contador,
             "numero_serie": num_serie,
             "obs": "✅"

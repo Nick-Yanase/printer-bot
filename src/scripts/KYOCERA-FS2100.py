@@ -5,7 +5,11 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
-import time
+import json
+import sys
+
+sys.stdout.reconfigure(encoding='utf-8')
+
 ips = [
   "172.16.18.101",
   "172.16.17.3", 
@@ -23,10 +27,10 @@ chrome_options.add_argument("--allow-running-insecure-content")
 
 navegador = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
 
+resultados = []
+
 for ip in ips:
     try:
-       # acessar IP e logar
-        print(f"\nAcessando impressora no IP: {ip}")
         navegador.get(f"http://{ip}")
         navegador.maximize_window()
         WebDriverWait(navegador, 20).until(
@@ -66,7 +70,7 @@ for ip in ips:
         )
 
         printer_itens = navegador.find_elements(By.XPATH, "//font[@face='Verdana']")
-        id_printer = printer_itens[1].text
+        num_serie = printer_itens[1].text
 
         # -------- 2. Obtendo o CONTADOR --------
         menu_counter = WebDriverWait(navegador, 10).until(
@@ -83,9 +87,23 @@ for ip in ips:
         contador = counter_itens[0].text
 
         # # -------- Resultado final --------
-        print(f"Contador: {contador}")
-        print(f"ID Impressora: {id_printer}")
+        resultados.append({
+           "ip": ip,
+           "modelo": "KYOCERA FS2100",
+           "contador": contador,
+           "numero_serie": num_serie,
+           "obs": "✅"
+           }
+        )
     except Exception as e:
-      print(f"erro ao acessar ip {ip} erro: {e}")
+      resultados.append({
+            "ip": ip,
+            "modelo": "KYOCERA FS2100",
+            "contador": "❌",
+            "numero_serie": "❌",
+            "obs": str(e)
+        })
 
 navegador.quit()
+
+print(json.dumps(resultados, indent=4, ensure_ascii=False))
