@@ -11,7 +11,7 @@ import sys
 sys.stdout.reconfigure(encoding='utf-8')
 
 ips = [
-    "172.16.17.16"
+    "172.16.17.15"
     ]
 
 chrome_options = Options()
