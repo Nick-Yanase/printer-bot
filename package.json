@@ -13,6 +13,8 @@
     "@tabler/icons-react": "^3.33.0",
     "clsx": "^2.1.1",
     "framer-motion": "^12.12.2",
+    "jspdf": "^3.0.1",
+    "jspdf-autotable": "^5.0.2",
     "motion": "^12.12.2",
     "next": "15.3.2",
     "python-shell": "^5.0.0",
@@ -23,6 +25,7 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
+    "@types/jspdf": "^1.3.3",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",

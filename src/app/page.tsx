@@ -8,6 +8,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { BackgroundBeamsWithCollision } from '@/components/ui/background-beams-with-collision';
 import Line from '@/components/Line';
 import BlurPink from '@/components/BlurPink';
+import { usePDFExport } from './hooks/useCreateReport';
 
 export type Impressora = {
   ip: string;
@@ -73,6 +74,7 @@ export default function Home() {
   const voltar = () => {
     setDados([])
   }
+  const { gerarRelatorioPDF } = usePDFExport()
   return (
       <main className="h-fit w-full flex flex-col items-center justify-center gap-5 bg-zinc-950 overflow-hidden relative z-10">
         <BlurPink className='absolute -top-[0px] -left-[0px] z-10 pointer-events-none select-none' width={400} height={400}/>
@@ -148,7 +150,7 @@ export default function Home() {
                 </div>
                 <div className='w-full flex justify-end mt-5'>
                   <button
-                      // onClick={buscarDados}
+                      onClick={() => {gerarRelatorioPDF(dados)}}
                       className="bg-[#E60076] hover:bg-white hover:text-[#E60076] font-semibold backdrop-blur-2xl flex gap-3 justify-between px-8 py-2 rounded-lg transition-shadow duration-300 ease-linear hover:shadow-[0_0_20px_1px] hover:shadow-[#E60076] cursor-pointer"
                     >
                       <p>Baixar relatório</p>
