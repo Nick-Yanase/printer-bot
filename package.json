@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@lottiefiles/dotlottie-react": "^0.13.5",
     "@tabler/icons": "^3.33.0",
     "@tabler/icons-react": "^3.33.0",
     "clsx": "^2.1.1",

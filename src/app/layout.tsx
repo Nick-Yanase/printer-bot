@@ -21,7 +21,7 @@ export default function RootLayout({
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico" />
       </head>
       <body
-        className={`${inter.className} antialiased`}
+        className={`${inter.className} antialiased bg-zinc-950`}
       >
         {children}
       </body>
