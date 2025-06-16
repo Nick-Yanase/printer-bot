@@ -12,9 +12,8 @@ sys.stdout.reconfigure(encoding='utf-8')
 
 # Lista de IPs das impressoras
 ips = [
-    "172.16.18.2",   # funcionando recepca-pso
-    "172.16.17.5",   # erro de segurança da pagina | recepcao psa
-    "172.16.24.14"
+    "172.16.18.2",  
+    "172.16.17.5",  
 ]
 
 # Configurações do navegador
@@ -37,7 +36,7 @@ resultados = []
 
 for ip in ips:
     try:
-        wait = WebDriverWait(navegador, 5)
+        wait = WebDriverWait(navegador, 3)
 
         # -------- Obtendo o CONTADOR --------
         navegador.get(f"https://{ip}/web/guest/en/websys/status/getUnificationCounter.cgi")

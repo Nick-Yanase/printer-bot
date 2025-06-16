@@ -12,15 +12,13 @@ sys.stdout.reconfigure(encoding='utf-8')
 
 # Lista de IPs das impressoras
 ips = [
-    "172.16.9.100",
-    "172.16.9.40",
-    "172.16.9.70",
+    "172.16.9.40", 
+    "172.16.9.70", 
     "172.16.9.110",
     "172.16.9.204",
-    "172.16.17.30",
-    "172.16.17.36",
-    "172.16.17.105",
-    "172.16.24.19",
+    "172.16.17.30", 
+    "172.16.17.36", 
+    "172.16.17.105", 
 ]
 
 # Configuração do navegador (apenas uma vez)
@@ -38,7 +36,7 @@ for ip in ips:
     try:
         navegador.get(f"http://{ip}")
 
-        wait = WebDriverWait(navegador, 5)
+        wait = WebDriverWait(navegador, 3)
 
         # Abrindo aba de contador
         pag_contador = wait.until(EC.element_to_be_clickable((By.XPATH, "//td[@class='tabUnSelected']/a[text()='Counter']")))

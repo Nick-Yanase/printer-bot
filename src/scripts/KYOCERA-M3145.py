@@ -11,7 +11,7 @@ import sys
 sys.stdout.reconfigure(encoding='utf-8')
 
 ips = [
-    "172.16.17.15"
+    "172.16.17.15",
     ]
 
 chrome_options = Options()
@@ -31,12 +31,16 @@ for ip in ips:
     try:
         # -------- 1. Obtendo o CONTADOR --------
         navegador.get(f"http://{ip}")
-        WebDriverWait(navegador, 20).until(
+        WebDriverWait(navegador, 5).until(
             EC.frame_to_be_available_and_switch_to_it((By.NAME, "wlmframe"))
         )
-        menu_principal = WebDriverWait(navegador, 10).until(
-            EC.element_to_be_clickable((By.XPATH, "//div[contains(@class, 'P001_menu_main') and (contains(@class, 'closed') or contains(@class, 'opened'))][.//span[contains(text(), 'Dados do dispositivo')]]"))
-        )
+        try:
+            menu_principal = WebDriverWait(navegador, 10).until(
+                EC.element_to_be_clickable((By.XPATH, "//div[contains(@class, 'P001_menu_main') and (contains(@class, 'closed') or contains(@class, 'opened'))][.//span[contains(text(), 'Dados do dispositivo')]]"))
+            )
+        except:
+            raise Exception("Elemento 'menu_principal' com texto 'Dados do dispositivo' não encontrado (segunda tentativa)")
+
         menu_principal.click()
 
         submenu = WebDriverWait(navegador, 10).until(

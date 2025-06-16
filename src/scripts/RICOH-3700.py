@@ -12,9 +12,11 @@ sys.stdout.reconfigure(encoding='utf-8')
 
 # Lista de IPs das impressoras
 ips = [
-    "172.16.17.27",
-    "172.16.17.23",
-    "172.16.9.26",
+    "172.16.17.27", #
+    "172.16.17.23", #
+    "172.16.9.26", #
+    "172.16.12.188", #
+    #"172.16.9.20", # PRT-TRIAGEM PSI- BLOCO A bugada
 ]
 
 # Configuração do navegador (única vez)
@@ -31,7 +33,7 @@ resultados = []
 for ip in ips:
     try:
         navegador.get(f"http://{ip}")
-        wait = WebDriverWait(navegador, 5)
+        wait = WebDriverWait(navegador, 3)
 
         # -------- 1. Obtendo o CONTADOR --------
         pag_contador = wait.until(EC.element_to_be_clickable((By.XPATH, "//td[@class='tabUnSelected']/a[text()='Counter']")))

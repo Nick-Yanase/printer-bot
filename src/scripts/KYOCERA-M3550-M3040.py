@@ -9,7 +9,7 @@ import json
 import sys
 
 sys.stdout.reconfigure(encoding='utf-8')
-ips = ["172.16.18.202"]
+ips = ["172.16.18.202", "172.16.24.19"]
 
 options = Options()
 options.add_argument("--headless=new")
@@ -28,7 +28,7 @@ for ip in ips:
     try:
         navegador.get(f"http://{ip}")
 
-        WebDriverWait(navegador, 15).until(
+        WebDriverWait(navegador, 3).until(
             EC.frame_to_be_available_and_switch_to_it((By.NAME, "wlmframe"))
         )
 
@@ -71,7 +71,7 @@ for ip in ips:
         # ------ resultados armazenados ------
         resultados.append({
             "ip": ip,
-            "modelo": "RICOH 4055",
+            "modelo": "KYOCERA M3550",
             "contador": contador,
             "numero_serie": num_serie,
             "obs": "✅"

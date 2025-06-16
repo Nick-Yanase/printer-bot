@@ -11,7 +11,6 @@ import json
 # Lista de IPs
 ips = [
     "172.16.18.100",
-    "172.16.12.188",
 ]
 
 # Configurações do navegador
@@ -34,7 +33,7 @@ resultados = []
 
 for ip in ips:
     try:
-        wait = WebDriverWait(navegador, 5)
+        wait = WebDriverWait(navegador, 3)
         # -------- Obtendo o CONTADOR --------
         navegador.get(f"http://{ip}/web/guest/en/websys/status/getUnificationCounter.cgi")
 

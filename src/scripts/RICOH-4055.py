@@ -33,7 +33,7 @@ resultados = []
 for ip in ips:
   try:
 
-    wait = WebDriverWait(navegador, 5)
+    wait = WebDriverWait(navegador, 3)
     # ------- obtendo ID ----------
     navegador.get(f"http://{ip}/web/guest/br/websys/status/configuration.cgi")
 

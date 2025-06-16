@@ -14,7 +14,10 @@ ips = [
     "172.16.9.199",
     "172.16.18.3",
     "172.16.5.60",
-    "172.16.2.30"
+    "172.16.2.30",
+    "172.16.5.10",
+    "172.16.9.100",
+    "172.16.12.188",
 ]
 
 chrome_options = Options()
@@ -35,7 +38,7 @@ resultados = []
 
 for ip in ips:
     try:
-        wait = WebDriverWait(navegador, 10)
+        wait = WebDriverWait(navegador, 3)
 
         # ---------- OBTENDO CONTADOR ----------
         navegador.get(f"http://{ip}")
