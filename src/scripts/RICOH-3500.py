@@ -31,44 +31,44 @@ chrome_options.add_argument('--window-size=1920,1080')
 navegador = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
 
 resultados = []
+try:
+    for ip in ips:
+        try:
+            navegador.get(f"http://{ip}")
 
-for ip in ips:
-    try:
-        navegador.get(f"http://{ip}")
+            wait = WebDriverWait(navegador, 3)
 
-        wait = WebDriverWait(navegador, 3)
+            # Abrindo aba de contador
+            pag_contador = wait.until(EC.element_to_be_clickable((By.XPATH, "//td[@class='tabUnSelected']/a[text()='Counter']")))
+            navegador.execute_script("arguments[0].click();", pag_contador)
 
-        # Abrindo aba de contador
-        pag_contador = wait.until(EC.element_to_be_clickable((By.XPATH, "//td[@class='tabUnSelected']/a[text()='Counter']")))
-        navegador.execute_script("arguments[0].click();", pag_contador)
+            contador = wait.until(EC.presence_of_element_located((By.CLASS_NAME, "p5_0_0_0"))).text
 
-        contador = wait.until(EC.presence_of_element_located((By.CLASS_NAME, "p5_0_0_0"))).text
+            # Abrindo aba de informações
+            pag_information = navegador.find_element(By.XPATH, "//td[@class='tabUnSelected']/a[text()='Machine Information']")
+            navegador.execute_script("arguments[0].click();", pag_information)
 
-        # Abrindo aba de informações
-        pag_information = navegador.find_element(By.XPATH, "//td[@class='tabUnSelected']/a[text()='Machine Information']")
-        navegador.execute_script("arguments[0].click();", pag_information)
+            elementos_info = wait.until(EC.presence_of_all_elements_located((By.CLASS_NAME, "p5_0_0_0")))
+            num_serie = elementos_info[2].text if len(elementos_info) >= 3 else '❌'
 
-        elementos_info = wait.until(EC.presence_of_all_elements_located((By.CLASS_NAME, "p5_0_0_0")))
-        num_serie = elementos_info[2].text if len(elementos_info) >= 3 else '❌'
+            resultados.append({
+                "ip": ip,
+                "modelo": "RICOH 3510",
+                "contador": contador,
+                "numero_serie": num_serie,
+                "obs": "✅"
+            })
 
-        resultados.append({
-            "ip": ip,
-            "modelo": "RICOH 3510",
-            "contador": contador,
-            "numero_serie": num_serie,
-            "obs": "✅"
-        })
-
-    except Exception as e:
-        resultados.append({
-            "ip": ip,
-            "modelo": "RICOH 3510",
-            "contador": '❌',
-            "numero_serie": '❌',
-            "obs": str(e)
-        })
+        except Exception as e:
+            resultados.append({
+                "ip": ip,
+                "modelo": "RICOH 3510",
+                "contador": '❌',
+                "numero_serie": '❌',
+                "obs": str(e)
+            })
 
 # Fecha o navegador no final
-navegador.quit()
-
-print(json.dumps(resultados, indent=4))
+finally:
+    navegador.quit()
+    print(json.dumps(resultados, indent=4))

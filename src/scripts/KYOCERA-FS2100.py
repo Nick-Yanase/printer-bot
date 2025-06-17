@@ -14,7 +14,6 @@ ips = [
   "172.16.18.101",
   "172.16.17.3", 
   "172.16.3.4",
-  
 ]
 
 chrome_options = Options()
@@ -29,19 +28,17 @@ chrome_options.add_argument("--allow-running-insecure-content")
 navegador = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
 
 resultados = []
-
-for ip in ips:
+try:
+   for ip in ips:
     try:
         navegador.get(f"http://{ip}")
         navegador.maximize_window()
 
         # ✅ Verifica se a página inicial está acessível (ex: frame de login)
-        try:
-            WebDriverWait(navegador, 5).until(
-                EC.frame_to_be_available_and_switch_to_it((By.NAME, "wlmframe"))
-            )
-        except:
-            raise Exception("Frame de login não disponível ou IP inacessível.")
+        
+        WebDriverWait(navegador, 5).until(
+            EC.frame_to_be_available_and_switch_to_it((By.NAME, "wlmframe"))
+         )
 
         # Continua a lógica normalmente (sem mais verificações individuais)
         input_user = WebDriverWait(navegador, 10).until(
@@ -104,7 +101,6 @@ for ip in ips:
             "obs": str(e)
         })
 
-
-navegador.quit()
-
-print(json.dumps(resultados, indent=4, ensure_ascii=False))
+finally:
+   navegador.quit()
+   print(json.dumps(resultados, indent=4, ensure_ascii=False))
