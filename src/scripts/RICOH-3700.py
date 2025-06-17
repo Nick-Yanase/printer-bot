@@ -17,7 +17,6 @@ ips = [
     "172.16.9.26", 
     "172.16.12.188", 
     #"172.16.9.20", # PRT-TRIAGEM PSI- BLOCO A bugada
-
 ]
 
 # Configuração do navegador (única vez)

@@ -15,7 +15,6 @@ ips = [
     "172.16.18.2",  
     "172.16.17.5",  
 ]
-
 # Configurações do navegador
 chrome_options = Options()
 chrome_options.add_argument("--headless=new")
@@ -33,52 +32,53 @@ navegador = webdriver.Chrome(
 )
 
 resultados = []
+try:
+    for ip in ips:
+        try:
+            wait = WebDriverWait(navegador, 3)
 
-for ip in ips:
-    try:
-        wait = WebDriverWait(navegador, 3)
+            # -------- Obtendo o CONTADOR --------
+            navegador.get(f"https://{ip}/web/guest/en/websys/status/getUnificationCounter.cgi")
 
-        # -------- Obtendo o CONTADOR --------
-        navegador.get(f"https://{ip}/web/guest/en/websys/status/getUnificationCounter.cgi")
+            elementos = wait.until(EC.presence_of_all_elements_located((By.CLASS_NAME, "staticProp")))
 
-        elementos = wait.until(EC.presence_of_all_elements_located((By.CLASS_NAME, "staticProp")))
+            if len(elementos) >= 2:
+                segundo = elementos[1]
+                tds = segundo.find_elements(By.TAG_NAME, "td")
+                contador = tds[3].text if len(tds) > 3 else "Contador não encontrado"
+            else:
+                contador = "Dados insuficientes para contador"
 
-        if len(elementos) >= 2:
-            segundo = elementos[1]
-            tds = segundo.find_elements(By.TAG_NAME, "td")
-            contador = tds[3].text if len(tds) > 3 else "Contador não encontrado"
-        else:
-            contador = "Dados insuficientes para contador"
+            # -------- Obtendo o ID da Impressora --------
+            navegador.get(f"https://{ip}/web/guest/en/websys/status/configuration.cgi")
 
-        # -------- Obtendo o ID da Impressora --------
-        navegador.get(f"https://{ip}/web/guest/en/websys/status/configuration.cgi")
+            menu_id = wait.until(EC.presence_of_element_located((
+                By.XPATH, "//tr[contains(@class, 'staticProp')][td[contains(text(), 'Machine ID')]]"
+            )))
 
-        menu_id = wait.until(EC.presence_of_element_located((
-            By.XPATH, "//tr[contains(@class, 'staticProp')][td[contains(text(), 'Machine ID')]]"
-        )))
+            num_serie = menu_id.find_element(By.XPATH, "./td[4]").text
 
-        num_serie = menu_id.find_element(By.XPATH, "./td[4]").text
+            # -------- Resultado --------
+            resultados.append({
+                "ip": ip,
+                "modelo": "RICOH MP501",
+                "contador": contador,
+                "numero_serie": num_serie,
+                "obs": "✅"
+            })
 
-        # -------- Resultado --------
-        resultados.append({
-            "ip": ip,
-            "modelo": "RICOH MP501",
-            "contador": contador,
-            "numero_serie": num_serie,
-            "obs": "✅"
-        })
+        except Exception as e:
+            resultados.append({
+                "ip": ip,
+                "modelo": "RICOH MP501",
+                "contador": "❌",
+                "numero_serie": "❌",
+                "obs": str(e)
+            })
 
-    except Exception as e:
-        resultados.append({
-            "ip": ip,
-            "modelo": "RICOH MP501",
-            "contador": "❌",
-            "numero_serie": "❌",
-            "obs": str(e)
-        })
+finally:
+    # Fecha o navegador
+    navegador.quit()
 
-# Fecha o navegador
-navegador.quit()
-
-# Exibe os resultados
-print(json.dumps(resultados, indent=4, ensure_ascii=False))
+    # Exibe os resultados
+    print(json.dumps(resultados, indent=4, ensure_ascii=False))
