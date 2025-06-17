@@ -13,15 +13,12 @@ sys.stdout.reconfigure(encoding='utf-8')
 ips = [
   "172.16.18.101",
   "172.16.17.3", 
-  "172.16.18.202", # outro modelo kyocera
-  "172.16.24.19", #  outro modelo kyocera
   "172.16.3.4",
-  "172.16.17.105", #  outro modelo ricoh
   
 ]
 
 chrome_options = Options()
-#chrome_options.add_argument("--headless=new")
+chrome_options.add_argument("--headless=new")
 chrome_options.add_argument('--disable-gpu')
 chrome_options.add_argument('--no-sandbox')
 chrome_options.add_argument('--window-size=1920,1080')

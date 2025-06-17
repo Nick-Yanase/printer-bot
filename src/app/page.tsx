@@ -30,8 +30,8 @@ export default function Home() {
     // { nome: 'RICOH-MP501', endpoint: '/api/RICOH-MP501' },
     // { nome: 'KYOCERA-PRINTER', endpoint: '/api/KYOCERA-PRINTER' },
     // { nome: 'KYOCERA-M3550', endpoint: '/api/KYOCERA-M3550' },
-    { nome: 'KYOCERA-FS2100', endpoint: '/api/KYOCERA-FS2100' },
-    // { nome: 'KYOCERA-M3145', endpoint: '/api/KYOCERA-M3145' },
+    // { nome: 'KYOCERA-FS2100', endpoint: '/api/KYOCERA-FS2100' },
+    { nome: 'KYOCERA-M3145', endpoint: '/api/KYOCERA-M3145' },
   ];
 
   async function getAllCounters() {
