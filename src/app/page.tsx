@@ -23,15 +23,15 @@ export default function Home() {
   const [carregando, setCarregando] = useState(false);
   const [statusPorImpressora, setStatusPorImpressora] = useState<Record<string, 'loading' | 'ready' | 'error'>>({});
   const impressoras = [
-    // { nome: 'RICOH-3500', endpoint: '/api/RICOH-3500' },
-    // { nome: 'RICOH-3700', endpoint: '/api/RICOH-3700' },
-    // { nome: 'RICOH-4500', endpoint: '/api/RICOH-4500' },
-    // { nome: 'RICOH-4055', endpoint: '/api/RICOH-4055' },
+    { nome: 'RICOH-3500', endpoint: '/api/RICOH-3500' },
+    { nome: 'RICOH-3700', endpoint: '/api/RICOH-3700' },
+    { nome: 'RICOH-4500', endpoint: '/api/RICOH-4500' },
+    { nome: 'RICOH-4055', endpoint: '/api/RICOH-4055' },
     { nome: 'RICOH-MP501', endpoint: '/api/RICOH-MP501' },
-    // { nome: 'KYOCERA-PRINTER', endpoint: '/api/KYOCERA-PRINTER' },
-    // { nome: 'KYOCERA-M3550', endpoint: '/api/KYOCERA-M3550' },
-    // { nome: 'KYOCERA-FS2100', endpoint: '/api/KYOCERA-FS2100' },
-    // { nome: 'KYOCERA-M3145', endpoint: '/api/KYOCERA-M3145' },
+    { nome: 'KYOCERA-PRINTER', endpoint: '/api/KYOCERA-PRINTER' },
+    { nome: 'KYOCERA-M3550', endpoint: '/api/KYOCERA-M3550-M3040' },
+    { nome: 'KYOCERA-FS2100', endpoint: '/api/KYOCERA-FS2100' },
+    { nome: 'KYOCERA-M3145', endpoint: '/api/KYOCERA-M3145' },
   ];
 
   async function getAllCounters() {

@@ -7,6 +7,12 @@ from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
 import json
 import sys
+import os
+
+# Adiciona o diretório 'src' ao sys.path
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+from utils.chrome_utils import kill_chrome_driver_tree
 
 sys.stdout.reconfigure(encoding='utf-8')
 
@@ -14,6 +20,8 @@ sys.stdout.reconfigure(encoding='utf-8')
 ips = [
     "172.16.18.2",  
     "172.16.17.5",  
+    "172.16.17.6", # ip errado
+    "172.16.12.188",# ip de uma kyocera 
 ]
 # Configurações do navegador
 chrome_options = Options()
@@ -35,7 +43,7 @@ resultados = []
 try:
     for ip in ips:
         try:
-            wait = WebDriverWait(navegador, 3)
+            wait = WebDriverWait(navegador, 5)
 
             # -------- Obtendo o CONTADOR --------
             navegador.get(f"https://{ip}/web/guest/en/websys/status/getUnificationCounter.cgi")
@@ -78,7 +86,7 @@ try:
 
 finally:
     # Fecha o navegador
-    navegador.quit()
+    kill_chrome_driver_tree(navegador)
 
     # Exibe os resultados
     print(json.dumps(resultados, indent=4, ensure_ascii=False))

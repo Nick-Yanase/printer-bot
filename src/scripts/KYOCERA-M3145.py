@@ -7,14 +7,17 @@ from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
 import json
 import sys
+import os
+
+# Adiciona o diretório 'src' ao sys.path
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+from utils.chrome_utils import kill_chrome_driver_tree
 
 sys.stdout.reconfigure(encoding='utf-8')
 
 ips = [
     "172.16.17.15", 
-    "172.16.3.4",
-    "172.16.17.15",
-    "172.16.17.105",
     ]
 
 chrome_options = Options()
@@ -102,5 +105,5 @@ try:
             })
 
 finally:
-    navegador.quit()
+    kill_chrome_driver_tree(navegador)
     print(json.dumps(resultados, indent=4, ensure_ascii=False))

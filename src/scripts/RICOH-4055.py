@@ -7,6 +7,12 @@ from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
 import json
 import sys
+import os
+
+# Adiciona o diretório 'src' ao sys.path
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+from utils.chrome_utils import kill_chrome_driver_tree
 
 sys.stdout.reconfigure(encoding='utf-8')
 
@@ -68,7 +74,7 @@ try:
                 })
 finally:
     # Fecha o navegador
-    navegador.quit()
+    kill_chrome_driver_tree(navegador)
 
     # Exibe os resultados
     print(json.dumps(resultados, indent=4, ensure_ascii=False))

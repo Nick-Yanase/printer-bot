@@ -70,5 +70,6 @@ try:
 
 # Fecha o navegador no final
 finally:
+    
     navegador.quit()
     print(json.dumps(resultados, indent=4))

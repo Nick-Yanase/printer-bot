@@ -6,8 +6,14 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
 import json
+import sys
+import os
 
-# Lista de IPs
+# Adiciona o diretório 'src' ao sys.path
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+from utils.chrome_utils import kill_chrome_driver_tree
+
 ips = [
     "172.16.18.100",
 ]
@@ -74,6 +80,6 @@ try:
 
 finally:
     # Fecha o navegador
-    navegador.quit()
+    kill_chrome_driver_tree(navegador)
     # Exibe os resultados
     print(json.dumps(resultados, indent=4))
